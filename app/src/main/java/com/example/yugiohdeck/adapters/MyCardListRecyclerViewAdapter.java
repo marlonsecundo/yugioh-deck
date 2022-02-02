@@ -1,0 +1,47 @@
+package com.example.yugiohdeck.adapters;
+
+import androidx.recyclerview.widget.RecyclerView;
+
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.example.yugiohdeck.holders.CardListViewHolder;
+import com.example.yugiohdeck.databinding.CardItemBinding;
+import com.example.yugiohdeck.models.Card;
+
+import java.util.List;
+
+
+public class MyCardListRecyclerViewAdapter extends RecyclerView.Adapter<CardListViewHolder> {
+
+    private final List<Card> cards;
+
+    public MyCardListRecyclerViewAdapter(List<Card> items) {
+        cards = items;
+    }
+
+    @Override
+    public CardListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+        return new CardListViewHolder(CardItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+
+    }
+
+
+
+
+    @Override
+    public void onBindViewHolder(final CardListViewHolder holder, int position) {
+        holder.setContent(cards.get(position));
+//        holder.mItem = mValues.get(position);
+//        holder.mIdView.setText(mValues.get(position).id);
+//        holder.mContentView.setText(mValues.get(position).content);
+    }
+
+    @Override
+    public int getItemCount() {
+        return cards.size();
+    }
+
+}
