@@ -16,12 +16,15 @@ import com.example.yugiohdeck.CardListFragment;
 import com.example.yugiohdeck.R;
 import com.example.yugiohdeck.databinding.FragmentHomeBinding;
 
+import retrofit2.Retrofit;
+
 public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
     private FragmentHomeBinding binding;
 
     CardListFragment cardListFragment;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -32,6 +35,8 @@ public class HomeFragment extends Fragment {
         View root = binding.getRoot();
 
         cardListFragment = (CardListFragment) this.getChildFragmentManager().findFragmentById(R.id.cardListFragment);
+
+
 
         return root;
     }

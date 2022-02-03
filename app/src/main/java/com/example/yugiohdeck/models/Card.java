@@ -1,6 +1,15 @@
 package com.example.yugiohdeck.models;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Card implements Serializable {
 
@@ -105,13 +114,45 @@ public class Card implements Serializable {
         this.attribute = attribute;
     }
 
-
     public String getImgUrl() {
         return imgUrl;
     }
 
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
+    }
+
+    public static List<Card> fromJSONList(JSONArray dataList) throws JSONException {
+        try {
+            ArrayList<Card> cards = new ArrayList<>();
+
+            for (int i = 0; i < dataList.length(); i++)
+            {
+                cards.add(Card.fromJSON(dataList.getJSONObject(i)));
+            }
+
+            return cards;
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+
+    public static Card fromJSON(JSONObject data) throws JSONException {
+        try{
+            Card card = new Card();
+
+            card.setName(data.getString("name"));
+
+            return card;
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
+            throw e;
+        }
+
     }
 
 
