@@ -1,9 +1,12 @@
 package com.example.yugiohdeck.ui.home;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -33,6 +36,9 @@ public class HomeFragment extends Fragment {
     private HomeViewModel homeViewModel;
     private FragmentHomeBinding binding;
 
+    EditText searchEditText;
+    Button searchButton;
+
     CardListFragment cardListFragment;
 
     CardService cardService;
@@ -46,14 +52,19 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+
+        searchEditText = binding.searchEditText;
+        searchButton = binding.searchButton;
+        searchButton.setOnClickListener(onSearchButtonClick);
+
+
         cardListFragment = (CardListFragment) this.getChildFragmentManager().findFragmentById(R.id.cardListFragment);
 
-        cardService = new CardService(root.getContext());
 
+        cardService = new CardService(root.getContext());
          Map<String, String> params =  new HashMap<String, String>() {{
              put("fname", "Dark Magician");
          }};
-
         cardService.fetchCards(params, onFetchCardsResponse, onFetchCardsError);
 
         return root;
@@ -71,9 +82,28 @@ public class HomeFragment extends Fragment {
         }
     };
 
-    Response.ErrorListener onFetchCardsError = error -> {};
+    Response.ErrorListener onFetchCardsError = error -> {
 
 
+    };
+
+
+    View.OnClickListener onSearchButtonClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+
+            if (searchEditText.getText().equals(""))
+                return;
+
+
+            Map<String, String> params =  new HashMap<String, String>() {{
+                put("fname", searchEditText.getText().toString());
+            }};
+
+            cardService.fetchCards(params, onFetchCardsResponse, onFetchCardsError);
+
+        }
+    };
 
 
     @Override
