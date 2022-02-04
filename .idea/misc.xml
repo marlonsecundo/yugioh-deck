@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/pedro/AndroidStudioProjects/yugioh-deck/app/src/main/res/layout/activity_desc_card.xml" value="0.264" />
+        <entry key="..\:/Users/pedro/AndroidStudioProjects/yugioh-deck/app/src/main/res/layout/activity_home.xml" value="0.11614583333333334" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.20108695652173914" />
         <entry key="app/src/main/res/layout/card_item.xml" value="0.25" />
         <entry key="app/src/main/res/layout/card_item_list.xml" value="0.20153985507246377" />
@@ -14,7 +16,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_15" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/buttonAddToDeck"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/backapp"
+    android:textAlignment="center">
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="239dp"
+        android:layout_height="386dp"
+        app:srcCompat="@drawable/_983839"
+        tools:layout_editor_absoluteX="86dp"
+        tools:layout_editor_absoluteY="16dp" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-black"
+        android:text="Tornado Dragon"
+        android:textColor="#FFFFFF"
+        android:textSize="30sp"
+        tools:layout_editor_absoluteX="97dp"
+        tools:layout_editor_absoluteY="413dp" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="XYZ Monster"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        tools:layout_editor_absoluteX="147dp"
+        tools:layout_editor_absoluteY="471dp" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:text="2 Level 4 monsters\nOnce per turn (Quick Effect): You can detach 1 material from this card, then target 1 Spell/Trap on the field; destroy it."
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="498dp" />
+
+    <Button
+        android:id="@+id/buttonAddToDeck"
+        android:layout_width="414dp"
+        android:layout_height="45dp"
+        android:layout_margin="0dp"
+        android:text="Adicionar ao Deck"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="-3dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>
