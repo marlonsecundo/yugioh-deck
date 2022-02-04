@@ -22,7 +22,6 @@ public class CardListViewHolder extends RecyclerView.ViewHolder {
     public final TextView atkTextView;
     public final TextView defTextView;
     public final ImageView cardImageView;
-    public final Button showCardButton;
 
     Card card;
 
@@ -36,16 +35,13 @@ public class CardListViewHolder extends RecyclerView.ViewHolder {
         atkTextView = binding.atkTextView;
         defTextView = binding.defTextView;
         cardImageView = binding.cardImageView;
-        showCardButton = binding.showCardButton;
 
-        showCardButton.setOnClickListener(onShowClick);
     }
 
     public OnClickListener onShowClick = new OnClickListener() {
         @Override
         public void onClick(View view) {
 
-            new CardService(view.getContext()).fetchCards(null);
 
         }
     };
@@ -58,11 +54,11 @@ public class CardListViewHolder extends RecyclerView.ViewHolder {
 
         nameTextView.setText(card.getName());
         typeTextView.setText(card.getType());
-        raceTextView.setText(card.getType());
+        raceTextView.setText(card.getRace());
         atkTextView.setText(String.valueOf(card.getAtk()));
         defTextView.setText(String.valueOf(card.getDef()));
 
-        new DownloadImageTask(cardImageView).execute(card.getImgUrl());
+        new DownloadImageTask(cardImageView).execute(card.getSmallImgUrl());
 
 
     }

@@ -34,9 +34,6 @@ public class MyCardListRecyclerViewAdapter extends RecyclerView.Adapter<CardList
     @Override
     public void onBindViewHolder(final CardListViewHolder holder, int position) {
         holder.setContent(cards.get(position));
-//        holder.mItem = mValues.get(position);
-//        holder.mIdView.setText(mValues.get(position).id);
-//        holder.mContentView.setText(mValues.get(position).content);
     }
 
     @Override

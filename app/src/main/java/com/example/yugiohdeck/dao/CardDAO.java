@@ -32,6 +32,7 @@ public class CardDAO {
                 + "level INTEGER NOT NULL,"
                 + "race TEXT NOT NULL,"
                 + "attribute TEXT NOT NULL,"
+                + "small_image_url TEXT NOT NULL,"
                 + "image_url TEXT NOT NULL);";
 
 
@@ -54,6 +55,7 @@ public class CardDAO {
         cv.put("race", card.getRace());
         cv.put("attribute", card.getAttribute());
         cv.put("image_url", card.getImgUrl());
+        cv.put("small_image_url", card.getSmallImgUrl());
 
 
 
@@ -92,6 +94,7 @@ public class CardDAO {
             int level = c.getInt(c.getColumnIndexOrThrow("level"));
             String race = c.getString(c.getColumnIndexOrThrow("race"));
             String attribute = c.getString(c.getColumnIndexOrThrow("attribute"));
+            String smallImageUrl = c.getString(c.getColumnIndexOrThrow("small_image_url"));
             String imageUrl = c.getString(c.getColumnIndexOrThrow("image_url"));
 
             card.setId(id);
@@ -104,6 +107,7 @@ public class CardDAO {
             card.setRace(race);
             card.setAttribute(attribute);
             card.setImgUrl(imageUrl);
+            card.setSmallImgUrl(smallImageUrl);
 
 
 
@@ -129,6 +133,7 @@ public class CardDAO {
         cv.put("race", card.getRace());
         cv.put("attribute", card.getAttribute());
         cv.put("image_url", card.getImgUrl());
+        cv.put("small_image_url", card.getSmallImgUrl());
 
 
         // 2. atualizar valor no banco

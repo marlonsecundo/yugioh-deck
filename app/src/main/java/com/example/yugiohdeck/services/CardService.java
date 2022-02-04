@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.yugiohdeck.models.Card;
@@ -23,24 +24,28 @@ public class CardService extends BaseService {
         requestQueue = Volley.newRequestQueue(context);
     }
 
-    public void fetchCards(Map<String, String> params)  {
+    public void fetchCards(Map<String, String> params, Response.Listener<String> onResponse, Response.ErrorListener onRequestError)  {
+
 
         String path = baseUrl + "/cardinfo.php";
 
-        request = new StringRequest(Request.Method.GET, path, response -> {
-            try {
-                JSONObject jsonData = new JSONObject(response);
-                Card.fromJSONList(jsonData.getJSONArray("data"));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }, error -> {
 
-        });
+        if (params != null)
+        {
+            if (params.containsKey("fname"))
+            {
+                path += "?fname="+params.get("fname").replaceAll("\\s","%20");
+            }
+        }
+
+        request = new StringRequest(Request.Method.GET, path, onResponse, onRequestError);
 
         requestQueue.add(request);
         requestQueue.start();
     }
+
+
+
 
 
 }

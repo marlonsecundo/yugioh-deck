@@ -27,7 +27,7 @@ public class CardListFragment extends Fragment {
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
     private int mColumnCount = 1;
-
+    private RecyclerView recyclerView;
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -62,7 +62,7 @@ public class CardListFragment extends Fragment {
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
+            recyclerView = (RecyclerView) view;
             if (mColumnCount <= 1) {
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
             } else {
@@ -71,10 +71,14 @@ public class CardListFragment extends Fragment {
 
             ArrayList<Card> cards = new ArrayList<>();
 
-            cards.add(new Card(1, "dfjds", "type", "dsofjdsjf", 3000, 2000, 5,"fsdfsf", "sdkfosdkf","https://storage.googleapis.com/ygoprodeck.com/pics/6983839.jpg"));
 
             recyclerView.setAdapter(new MyCardListRecyclerViewAdapter(cards));
         }
         return view;
+    }
+
+    public void setContent(List<Card> cards) {
+
+        recyclerView.setAdapter(new MyCardListRecyclerViewAdapter(cards));
     }
 }
