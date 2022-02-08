@@ -2,13 +2,16 @@ package com.example.yugiohdeck.adapters;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.yugiohdeck.holders.CardListViewHolder;
 import com.example.yugiohdeck.databinding.CardItemBinding;
 import com.example.yugiohdeck.models.Card;
+import com.example.yugiohdeck.utils.CardSelectCallback;
 
 import java.util.List;
 
@@ -20,6 +23,7 @@ public class MyCardListRecyclerViewAdapter extends RecyclerView.Adapter<CardList
     public MyCardListRecyclerViewAdapter(List<Card> items) {
         cards = items;
     }
+    private CardSelectCallback cardSelectCallback;
 
     @Override
     public CardListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -29,17 +33,21 @@ public class MyCardListRecyclerViewAdapter extends RecyclerView.Adapter<CardList
     }
 
 
+    public void setCardSelectCallback(CardSelectCallback cardSelectCallback)
+    {
+        this.cardSelectCallback = cardSelectCallback;
+    }
 
 
     @Override
     public void onBindViewHolder(final CardListViewHolder holder, int position) {
-        holder.setContent(cards.get(position));
-//        holder.mItem = mValues.get(position);
-//        holder.mIdView.setText(mValues.get(position).id);
-//        holder.mContentView.setText(mValues.get(position).content);
+
+        holder.setContent(cards.get(position), cardSelectCallback);
     }
 
-    @Override
+
+
+@Override
     public int getItemCount() {
         return cards.size();
     }

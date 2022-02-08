@@ -1,6 +1,15 @@
 package com.example.yugiohdeck.models;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Card implements Serializable {
 
@@ -14,6 +23,10 @@ public class Card implements Serializable {
     String race;
     String attribute;
     String imgUrl;
+
+
+
+    String smallImgUrl;
 
     public Card(Integer id, String name, String type, String desc, int atk, int def, int level, String race, String attribute, String imgUrl) {
         this.id = id;
@@ -105,13 +118,74 @@ public class Card implements Serializable {
         this.attribute = attribute;
     }
 
-
     public String getImgUrl() {
         return imgUrl;
     }
 
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
+    }
+
+    public String getSmallImgUrl() {
+        return smallImgUrl;
+    }
+
+    public void setSmallImgUrl(String smallImgUrl) {
+        this.smallImgUrl = smallImgUrl;
+    }
+
+    public static List<Card> fromJSONList(JSONArray dataList) throws JSONException {
+        try {
+            ArrayList<Card> cards = new ArrayList<>();
+
+            for (int i = 0; i < dataList.length(); i++)
+            {
+                cards.add(Card.fromJSON(dataList.getJSONObject(i)));
+            }
+
+            return cards;
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+
+    public static Card fromJSON(JSONObject data) throws JSONException {
+        try{
+            Card card = new Card();
+
+            card.setId(data.getInt("id"));
+            card.setName(data.getString("name"));
+            card.setRace(data.getString("race"));
+            card.setType(data.getString("type"));
+            card.setDesc(data.getString("desc"));
+
+            JSONObject cardImage = data.getJSONArray("card_images").getJSONObject(0);
+            card.setImgUrl(cardImage.getString("image_url"));
+            card.setSmallImgUrl(cardImage.getString("image_url_small"));
+
+
+            if (data.has("attribute"))
+                card.setAttribute(data.getString("attribute"));
+            if (data.has("atk"))
+                card.setAtk(data.getInt("atk"));
+            if (data.has("def"))
+                card.setDef(data.getInt("def"));
+            if (data.has("level"))
+                card.setLevel(data.getInt("level"));
+
+
+
+
+            return card;
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
+            throw e;
+        }
+
     }
 
 
