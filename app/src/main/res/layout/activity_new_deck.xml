@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/backapp">
+
+    <TextView
+        android:id="@+id/txtAddNewDeck"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="51dp"
+        android:text="Novo Deck"
+        android:textColor="#FFFFFF"
+        android:textSize="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/inputTxtNewDeck"
+        android:layout_width="321dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="37dp"
+        android:background="@color/white"
+        android:backgroundTint="@color/cardview_light_background"
+        android:backgroundTintMode="src_in"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:paddingLeft="20"
+        android:text="Título"
+        android:textColor="@color/cardview_dark_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtAddNewDeck" />
+
+    <EditText
+        android:id="@+id/editTextTextPersonName3"
+        android:layout_width="320dp"
+        android:layout_height="186dp"
+        android:layout_marginTop="29dp"
+        android:background="@color/white"
+        android:backgroundTint="@color/cardview_light_background"
+        android:backgroundTintMode="src_in"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:paddingLeft="20"
+        android:paddingBottom="120"
+        android:text="Descrição"
+        android:textAlignment="viewStart"
+        android:textColor="@color/cardview_dark_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/inputTxtNewDeck" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabAddDeck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="44dp"
+        android:layout_marginBottom="25dp"
+        android:clickable="true"
+        app:backgroundTint="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName3"
+        app:layout_constraintVertical_bias="0.92"
+        app:srcCompat="@android:drawable/ic_menu_edit" />
+</androidx.constraintlayout.widget.ConstraintLayout>
