@@ -21,13 +21,16 @@ import com.example.yugiohdeck.R;
 import com.example.yugiohdeck.databinding.FragmentHomeBinding;
 import com.example.yugiohdeck.models.Card;
 import com.example.yugiohdeck.services.CardService;
+import com.example.yugiohdeck.utils.CardSelectCallback;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
 
 import retrofit2.Retrofit;
 
@@ -38,10 +41,11 @@ public class HomeFragment extends Fragment {
 
     EditText searchEditText;
     Button searchButton;
+    Button addToDeckButton;
 
     CardListFragment cardListFragment;
-
     CardService cardService;
+    List<Card> selectedCards = new ArrayList<>();
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -56,6 +60,8 @@ public class HomeFragment extends Fragment {
         searchEditText = binding.searchEditText;
         searchButton = binding.searchButton;
         searchButton.setOnClickListener(onSearchButtonClick);
+
+        addToDeckButton = binding.addToDeckButton;
 
 
         cardListFragment = (CardListFragment) this.getChildFragmentManager().findFragmentById(R.id.cardListFragment);
@@ -76,7 +82,7 @@ public class HomeFragment extends Fragment {
         try {
             JSONObject jsonData = new JSONObject(response);
             List<Card> cards = Card.fromJSONList(jsonData.getJSONArray("data"));
-           cardListFragment.setContent(cards);
+           cardListFragment.setContent(cards, this.onCardSelect);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -105,6 +111,29 @@ public class HomeFragment extends Fragment {
         }
     };
 
+
+    CardSelectCallback onCardSelect = new CardSelectCallback() {
+        @Override
+        public void onCardSelect(Card card, boolean selected) {
+
+            if (selected)
+            {
+                selectedCards.add(card);
+            }
+            else {
+                selectedCards.remove(card);
+            }
+
+            if (selectedCards.size() > 0)
+            {
+                addToDeckButton.setVisibility(View.VISIBLE);
+            }
+            else{
+                addToDeckButton.setVisibility(View.GONE);
+            }
+
+        }
+    };
 
     @Override
     public void onDestroyView() {

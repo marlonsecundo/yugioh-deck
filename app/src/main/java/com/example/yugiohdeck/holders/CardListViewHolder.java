@@ -2,28 +2,35 @@ package com.example.yugiohdeck.holders;
 
 import static android.view.View.*;
 
+import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.yugiohdeck.databinding.CardItemBinding;
 import com.example.yugiohdeck.models.Card;
 import com.example.yugiohdeck.services.CardService;
 import com.example.yugiohdeck.tasks.DownloadImageTask;
+import com.example.yugiohdeck.utils.CardSelectCallback;
 
-public class CardListViewHolder extends RecyclerView.ViewHolder {
+public class CardListViewHolder extends RecyclerView.ViewHolder  {
     public final TextView nameTextView;
     public final TextView typeTextView;
     public final TextView raceTextView;
     public final TextView atkTextView;
     public final TextView defTextView;
     public final ImageView cardImageView;
+    public CardView cardView;
 
     Card card;
+    boolean selected = false;
+
+    CardSelectCallback cardSelectCallback;
 
 
     public CardListViewHolder(CardItemBinding binding) {
@@ -35,6 +42,9 @@ public class CardListViewHolder extends RecyclerView.ViewHolder {
         atkTextView = binding.atkTextView;
         defTextView = binding.defTextView;
         cardImageView = binding.cardImageView;
+        cardView = binding.cardView;
+
+        cardView.setOnLongClickListener(onCardLongPress);
 
     }
 
@@ -46,9 +56,12 @@ public class CardListViewHolder extends RecyclerView.ViewHolder {
         }
     };
 
-    public void setContent(Card card)
+
+
+    public void setContent(Card card, CardSelectCallback cardSelectCallback)
     {
         this.card = card;
+        this.cardSelectCallback = cardSelectCallback;
 
         Log.e("YUGI", card.getImgUrl());
 
@@ -59,11 +72,23 @@ public class CardListViewHolder extends RecyclerView.ViewHolder {
         defTextView.setText(String.valueOf(card.getDef()));
 
         new DownloadImageTask(cardImageView).execute(card.getSmallImgUrl());
-
-
     }
 
+    View.OnLongClickListener onCardLongPress = view -> {
+
+        selected = !selected;
+
+        if (selected) {
+            cardView.setCardBackgroundColor(Color.parseColor("#FF9FD3CF"));
+        }
+        else {
+            cardView.setCardBackgroundColor(Color.WHITE);
+        }
+
+        cardSelectCallback.onCardSelect(this.card, selected);
 
 
+        return false;
+    };
 
 }
