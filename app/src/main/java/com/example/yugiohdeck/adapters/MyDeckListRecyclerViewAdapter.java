@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.yugiohdeck.holders.DeckListViewHolder;
+import com.example.yugiohdeck.models.Card;
+import com.example.yugiohdeck.models.Deck;
 import com.example.yugiohdeck.placeholder.PlaceholderContent.PlaceholderItem;
 import com.example.yugiohdeck.databinding.DeckListItemBinding;
 
@@ -18,30 +20,28 @@ import java.util.List;
  */
 public class MyDeckListRecyclerViewAdapter extends RecyclerView.Adapter<DeckListViewHolder> {
 
-    private final List<PlaceholderItem> mValues;
+    private final List<Card> cards;
 
-    public MyDeckListRecyclerViewAdapter(List<PlaceholderItem> items) {
-        mValues = items;
+    public MyDeckListRecyclerViewAdapter(List<Card> items) {
+        cards = items;
     }
 
     @Override
     public DeckListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        return new DeckListViewHolder(DeckListItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+        return new DeckListViewHolder(
+                DeckListItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
 
     }
 
     @Override
     public void onBindViewHolder(final DeckListViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+        holder.setContent(cards.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return mValues.size();
+        return cards.size();
     }
-
 
 }

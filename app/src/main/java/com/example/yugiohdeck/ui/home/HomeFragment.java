@@ -95,6 +95,7 @@ public class HomeFragment extends Fragment {
             if (searchEditText.getText().equals(""))
                 return;
 
+            selectedCards = new ArrayList<>();
 
             Map<String, String> params =  new HashMap<String, String>() {{
                 put("fname", searchEditText.getText().toString());

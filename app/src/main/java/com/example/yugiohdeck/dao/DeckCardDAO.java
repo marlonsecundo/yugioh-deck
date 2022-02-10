@@ -51,12 +51,12 @@ public class DeckCardDAO {
         return true;
     }
 
-    public List<DeckCard> listar() {
+    public List<DeckCard> listar(int deckIdFilter) {
 
         List<DeckCard> decksCards = new ArrayList<>();
 
         // 1. string sql de consulta
-        String sql = "SELECT * FROM " + dbHelper.tabelName + ";";
+        String sql = "SELECT * FROM " + dbHelper.tabelName + "WHERE deck_id=" + deckIdFilter + ";";
 
         // 2. Cursor para acesso aos dados
         Cursor c = le.rawQuery(sql, null);

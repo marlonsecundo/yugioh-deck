@@ -1,12 +1,16 @@
 package com.example.yugiohdeck.models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Deck implements Serializable {
 
     Integer id;
     String description;
     String name;
+
+    List<Card> cards = new ArrayList<>();
 
     public Deck() {
     }
@@ -40,4 +44,13 @@ public class Deck implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
+
+    public List<Card> getCards() {
+        return cards;
+    }
+
+    public void setCards(List<Card> cards) {
+        this.cards = cards;
+    }
+
 }

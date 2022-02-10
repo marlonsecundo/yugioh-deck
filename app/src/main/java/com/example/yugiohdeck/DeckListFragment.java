@@ -13,7 +13,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.yugiohdeck.adapters.MyDeckListRecyclerViewAdapter;
+import com.example.yugiohdeck.models.Card;
+import com.example.yugiohdeck.models.Deck;
 import com.example.yugiohdeck.placeholder.PlaceholderContent;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A fragment representing a list of Items.
@@ -65,7 +70,9 @@ public class DeckListFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyDeckListRecyclerViewAdapter(PlaceholderContent.ITEMS));
+
+            List<Card> cards = new ArrayList<>();
+            recyclerView.setAdapter(new MyDeckListRecyclerViewAdapter(cards));
         }
         return view;
     }

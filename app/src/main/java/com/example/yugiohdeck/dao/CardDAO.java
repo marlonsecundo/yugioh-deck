@@ -69,12 +69,20 @@ public class CardDAO {
         return true;
     }
 
-    public List<Card> listar() {
+    public List<Card> listar(List<Integer> cardIds) {
 
         List<Card> cards = new ArrayList<>();
 
         // 1. string sql de consulta
-        String sql = "SELECT * FROM " + dbHelper.tabelName + ";";
+        String sql = "SELECT * FROM " + dbHelper.tabelName;
+
+        if (cardIds.size() > 0)
+        {
+            String ids = cardIds.toString().replace("[", "").replace("]", "");
+            sql += " WHERE id IN (" + ids + ")";
+        }
+
+        sql += ";";
 
         // 2. Cursor para acesso aos dados
         Cursor c = le.rawQuery(sql, null);
