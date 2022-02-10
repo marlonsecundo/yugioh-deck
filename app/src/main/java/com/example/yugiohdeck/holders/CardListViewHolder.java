@@ -2,16 +2,19 @@ package com.example.yugiohdeck.holders;
 
 import static android.view.View.*;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.yugiohdeck.OpenCamera;
 import com.example.yugiohdeck.databinding.CardItemBinding;
 import com.example.yugiohdeck.models.Card;
 import com.example.yugiohdeck.services.CardService;
@@ -51,11 +54,9 @@ public class CardListViewHolder extends RecyclerView.ViewHolder  {
     public OnClickListener onShowClick = new OnClickListener() {
         @Override
         public void onClick(View view) {
-
-
+            Toast.makeText(view.getContext(), "Tarefa foi removida", Toast.LENGTH_SHORT).show();
         }
     };
-
 
 
     public void setContent(Card card, CardSelectCallback cardSelectCallback)

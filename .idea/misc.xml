@@ -6,14 +6,16 @@
         <entry key="..\:/Users/pedro/AndroidStudioProjects/yugioh-deck/app/src/main/res/layout/activity_desc_card.xml" value="0.176" />
         <entry key="..\:/Users/pedro/AndroidStudioProjects/yugioh-deck/app/src/main/res/layout/activity_desc_card2.xml" value="0.152" />
         <entry key="..\:/Users/pedro/AndroidStudioProjects/yugioh-deck/app/src/main/res/layout/activity_home.xml" value="0.11614583333333334" />
-        <entry key="..\:/Users/pedro/AndroidStudioProjects/yugioh-deck/app/src/main/res/layout/activity_main.xml" value="0.2" />
+        <entry key="..\:/Users/pedro/AndroidStudioProjects/yugioh-deck/app/src/main/res/layout/activity_main.xml" value="0.264" />
         <entry key="..\:/Users/pedro/AndroidStudioProjects/yugioh-deck/app/src/main/res/layout/activity_main2.xml" value="0.1598731884057971" />
         <entry key="..\:/Users/pedro/AndroidStudioProjects/yugioh-deck/app/src/main/res/layout/activity_new_deck.xml" value="0.264" />
         <entry key="..\:/Users/pedro/AndroidStudioProjects/yugioh-deck/app/src/main/res/layout/activity_open_camera.xml" value="0.15307971014492755" />
-        <entry key="..\:/Users/pedro/AndroidStudioProjects/yugioh-deck/app/src/main/res/layout/card_item.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/pedro/AndroidStudioProjects/yugioh-deck/app/src/main/res/layout/card_item.xml" value="0.4" />
         <entry key="..\:/Users/pedro/AndroidStudioProjects/yugioh-deck/app/src/main/res/layout/card_item_list.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/pedro/AndroidStudioProjects/yugioh-deck/app/src/main/res/layout/deck_list.xml" value="0.264" />
+        <entry key="..\:/Users/pedro/AndroidStudioProjects/yugioh-deck/app/src/main/res/layout/deck_list_item.xml" value="0.14583333333333334" />
         <entry key="..\:/Users/pedro/AndroidStudioProjects/yugioh-deck/app/src/main/res/layout/fragment_dashboard.xml" value="0.16666666666666666" />
-        <entry key="..\:/Users/pedro/AndroidStudioProjects/yugioh-deck/app/src/main/res/layout/fragment_home.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/pedro/AndroidStudioProjects/yugioh-deck/app/src/main/res/layout/fragment_home.xml" value="0.2" />
         <entry key="..\:/Users/pedro/AndroidStudioProjects/yugioh-deck/app/src/main/res/layout/fragment_notifications.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/pedro/AndroidStudioProjects/yugioh-deck/app/src/main/res/layout/test.xml" value="0.1598731884057971" />
         <entry key="..\:/Users/pedro/AndroidStudioProjects/yugioh-deck/app/src/main/res/layout/test23.xml" value="0.1598731884057971" />

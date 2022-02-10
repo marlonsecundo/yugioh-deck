@@ -1,6 +1,7 @@
 package com.example.yugiohdeck;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.yugiohdeck.adapters.MyCardListRecyclerViewAdapter;
+import com.example.yugiohdeck.holders.CardListViewHolder;
 import com.example.yugiohdeck.models.Card;
 import com.example.yugiohdeck.utils.CardSelectCallback;
 
@@ -60,6 +62,7 @@ public class CardListFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.card_item_list, container, false);
 
+
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
@@ -72,6 +75,7 @@ public class CardListFragment extends Fragment {
 
             ArrayList<Card> cards = new ArrayList<>();
             recyclerView.setAdapter(new MyCardListRecyclerViewAdapter(cards));
+
         }
         return view;
     }

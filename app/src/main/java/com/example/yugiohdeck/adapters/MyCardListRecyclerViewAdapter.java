@@ -47,9 +47,11 @@ public class MyCardListRecyclerViewAdapter extends RecyclerView.Adapter<CardList
 
 
 
-@Override
+    @Override
     public int getItemCount() {
         return cards.size();
     }
+
+
 
 }
