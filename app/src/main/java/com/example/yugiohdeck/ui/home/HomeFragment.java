@@ -67,6 +67,8 @@ public class HomeFragment extends Fragment {
                 put("fname", "Dark Magician");
             }
         };
+
+
         cardService.fetchCards(params, onFetchCardsResponse, onFetchCardsError);
 
         return root;

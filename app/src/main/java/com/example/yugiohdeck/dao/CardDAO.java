@@ -72,6 +72,8 @@ public class CardDAO {
 
                     response = write.insertOrThrow(TABLE_NAME, null, cv);
 
+                    write.close();
+
                     Log.i("INFO", "Registro salvo com sucesso!");
                 } catch (Exception e) {
                     Log.i("INFO", "Erro ao salvar registro: " + e.getMessage());
@@ -96,10 +98,22 @@ public class CardDAO {
                 // 1. string sql de consulta
                 String sql = "SELECT * FROM " + TABLE_NAME;
 
+
+
                 if (cardIds.size() > 0)
                 {
-                    String ids = cardIds.toString().replace("[", "").replace("]", "");
-                    sql += " WHERE id IN (" + ids + ")";
+                    sql += " WHERE";
+                    for (int i = 0; i < cardIds.size(); i++) {
+                        sql += " id = " + cardIds.get(i);
+
+                        if (i + 1 == cardIds.size())
+                            break;
+
+                        sql += " OR";
+                    }
+                }
+                else {
+                    return cards;
                 }
 
                 sql += ";";
@@ -108,7 +122,7 @@ public class CardDAO {
                 Cursor c = read.rawQuery(sql, null);
 
                 // 3. percorrer o cursor
-                c.moveToFirst();
+                boolean response = c.moveToFirst();
                 while (c.moveToNext()) {
 
                     Card card = new Card();
@@ -145,6 +159,7 @@ public class CardDAO {
                     cards.add(card);
                 }
                 c.close();
+                read.close();
 
                 return cards;
             }

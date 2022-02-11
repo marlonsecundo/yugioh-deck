@@ -15,8 +15,7 @@ public class Deck implements Serializable {
     public Deck() {
     }
 
-    public Deck(int id, String description, String name) {
-        this.id = id;
+    public Deck(String description, String name) {
         this.description = description;
         this.name = name;
     }

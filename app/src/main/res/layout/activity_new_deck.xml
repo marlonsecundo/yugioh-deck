@@ -1,27 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/backapp">
+    android:background="@drawable/backapp"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/txtAddNewDeck"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_marginTop="51dp"
+        android:layout_weight="0"
         android:text="Novo Deck"
         android:textColor="#FFFFFF"
-        android:textSize="30dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textSize="30dp" />
 
     <EditText
-        android:id="@+id/inputTxtNewDeck"
+        android:id="@+id/titleTextInput"
         android:layout_width="321dp"
         android:layout_height="48dp"
+        android:layout_gravity="center"
         android:layout_marginTop="37dp"
         android:background="@color/white"
         android:backgroundTint="@color/cardview_light_background"
@@ -30,16 +31,15 @@
         android:inputType="textPersonName"
         android:paddingLeft="20dp"
         android:text="Título"
-        android:textColor="@color/cardview_dark_background"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtAddNewDeck" />
+        android:textColor="@color/cardview_dark_background" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName3"
+        android:id="@+id/descTextInput"
         android:layout_width="320dp"
         android:layout_height="186dp"
+        android:layout_gravity="center"
         android:layout_marginTop="29dp"
+        android:layout_weight="0"
         android:background="@color/white"
         android:backgroundTint="@color/cardview_light_background"
         android:backgroundTintMode="src_in"
@@ -49,24 +49,20 @@
         android:paddingBottom="120dp"
         android:text="Descrição"
         android:textAlignment="viewStart"
-        android:textColor="@color/cardview_dark_background"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inputTxtNewDeck" />
+        android:textColor="@color/cardview_dark_background" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabAddDeck"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="311dp"
-        android:layout_marginEnd="44dp"
-        android:layout_marginBottom="25dp"
-        android:clickable="true"
-        app:backgroundTint="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName3"
-        app:layout_constraintVertical_bias="0.92"
-        app:srcCompat="@android:drawable/ic_menu_edit" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_weight="1"
+        android:orientation="vertical"></LinearLayout>
+
+    <Button
+        android:id="@+id/newDeckConfirmButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:text="Confirmar" />
+
+</LinearLayout>

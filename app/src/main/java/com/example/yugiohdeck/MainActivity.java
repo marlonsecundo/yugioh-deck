@@ -24,6 +24,7 @@ import androidx.navigation.ui.NavigationUI;
 import com.example.yugiohdeck.databinding.ActivityMainBinding;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -56,13 +57,39 @@ public class MainActivity extends AppCompatActivity {
         cardDAO = new CardDAO(getApplicationContext());
         deckCardDAO = new DeckCardDAO(getApplicationContext());
 
-        cardDAO.salvar(new Card(-1, "", "", "", -1, -1,-1, "", "", "", ""), result -> {
 
+        cardDAO.listar(Arrays.asList(1), new DAOCallback() {
+            @Override
+            public void onJobFinish(Object result) {
+                List<Card> cards = (List<Card>) result;
+
+                if (cards.size() < 1)
+                {
+                    cardDAO.salvar(new Card(-1, "", "", "", -1, -1,-1, "", "", "", ""), result1 -> {
+
+                    });
+                }
+            }
         });
 
-        deckCardDAO.salvar(new DeckCard(-1, -1), result -> {
 
+        deckCardDAO.listar(1, new DAOCallback() {
+            @Override
+            public void onJobFinish(Object result) {
+
+                List<Deck> decks = (List<Deck>) result;
+
+                if (decks.size() < 1)
+                {
+                    deckCardDAO.salvar(new DeckCard(-1, -1), result1 -> {
+
+                    });
+                }
+            }
         });
+
+
+
 
 
 

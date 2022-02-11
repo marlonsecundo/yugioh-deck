@@ -50,6 +50,8 @@ public class DeckCardDAO {
                     SQLiteDatabase write = dbHelper.getWritableDatabase();
 
                     write.insertOrThrow(TABLE_NAME, null, cv);
+
+                    write.close();
                     Log.i("INFO", "Registro salvo com sucesso!");
                 } catch (Exception e) {
                     Log.i("INFO", "Erro ao salvar registro: " + e.getMessage());
@@ -96,6 +98,7 @@ public class DeckCardDAO {
                     decksCards.add(deckCard);
                 }
                 c.close();
+                read.close();
 
                 return decksCards;
             }
@@ -115,6 +118,8 @@ public class DeckCardDAO {
             String[] args = { deckCard.getId().toString() };
             write.delete(TABLE_NAME, "id=?", args);
             Log.i("INFO", "Registro apagado com sucesso!");
+
+            write.close();
         } catch (Exception e) {
             Log.i("INFO", "Erro apagar registro!" + e.getMessage());
             return false;
