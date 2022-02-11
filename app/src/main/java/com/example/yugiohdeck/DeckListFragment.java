@@ -28,7 +28,11 @@ public class DeckListFragment extends Fragment {
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
-    private int mColumnCount = 3;
+    private int mColumnCount = 5;
+
+    RecyclerView recyclerView;
+
+    List<Card> cards = new ArrayList<>();
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -64,16 +68,28 @@ public class DeckListFragment extends Fragment {
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
+             recyclerView = (RecyclerView) view;
             if (mColumnCount <= 1) {
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
             } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
+                GridLayoutManager gridLayout = new GridLayoutManager(context, mColumnCount);
+                recyclerView.setLayoutManager(gridLayout);
             }
 
-            List<Card> cards = new ArrayList<>();
             recyclerView.setAdapter(new MyDeckListRecyclerViewAdapter(cards));
         }
         return view;
     }
+
+    public void setContent(List<Card> cards)
+    {
+        this.cards = cards;
+
+        if (recyclerView != null)
+        {
+            recyclerView.setAdapter(new MyDeckListRecyclerViewAdapter(cards));
+        }
+    }
+
+
 }

@@ -4,85 +4,119 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.yugiohdeck.models.Deck;
+import com.example.yugiohdeck.tasks.DBTask;
+import com.example.yugiohdeck.utils.DAOCallable;
+import com.example.yugiohdeck.utils.DAOCallback;
 import com.example.yugiohdeck.utils.DBHelper;
 
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class DeckDAO {
 
-    private final SQLiteDatabase escreve;
-    private final SQLiteDatabase le;
+    public static String TABLE_NAME = "decks";
+    public static String COLUMNS = "(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
+            + "name TEXT NOT NULL,"
+            + "description TEXT NOT NULL);";
+
+
+    public static String CREATE_DECK_TABLE_SQL = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " " + COLUMNS;
+
+
 
     DBHelper dbHelper;
 
 
+
+
     public DeckDAO(Context context) {
 
-        String columns = "(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
-                + "name TEXT NOT NULL,"
-                + "description TEXT NOT NULL);";
-
-
-        dbHelper = new DBHelper(context, "decks", columns);
-        escreve = dbHelper.getWritableDatabase();
-        le = dbHelper.getReadableDatabase();
+        dbHelper = DBHelper.getInstance(context);
 
     }
 
-    public boolean salvar(Deck deck) {
+    public void salvar(Deck deck, DAOCallback callback) {
 
-        // 1. definir o conteudo a ser salvo
-        ContentValues cv = new ContentValues();
-        cv.put("name", deck.getName());
-        cv.put("description", deck.getDescription());
+        new DBTask(
+                new DAOCallable() {
+                    @Override
+                    public Object run() {
 
-        try {
-            escreve.insert(dbHelper.tabelName, null, cv);
-            Log.i("INFO", "Registro salvo com sucesso!");
-        } catch (Exception e) {
-            Log.i("INFO", "Erro ao salvar registro: " + e.getMessage());
-            return false;
-        }
-        return true;
+                        SQLiteDatabase write = dbHelper.getWritableDatabase();
+
+                        ContentValues cv = new ContentValues();
+
+                        cv.put("name", deck.getName());
+
+                        cv.put("description", deck.getDescription());
+
+                        try {
+                            long response = write.insertOrThrow(TABLE_NAME, null, cv);
+                            Log.i("INFO", "Registro salvo com sucesso!");
+                        } catch (Exception e) {
+                            Log.i("INFO", "Erro ao salvar registro: " + e.getMessage());
+                            return false;
+                        }
+
+                        write.close();
+                        return true;
+                    }},
+                callback).execute();
+
+
+
     }
 
-    public List<Deck> listar() {
+    public void listar(DAOCallback callback) {
 
-        List<Deck> decks = new ArrayList<>();
+        new DBTask(new DAOCallable() {
+            @Override
+            public Object run() {
 
-        // 1. string sql de consulta
-        String sql = "SELECT * FROM " + dbHelper.tabelName + ";";
+                SQLiteDatabase read = dbHelper.getReadableDatabase();
 
-        // 2. Cursor para acesso aos dados
-        Cursor c = le.rawQuery(sql, null);
+                List<Deck> decks = new ArrayList<>();
 
-        // 3. percorrer o cursor
-        c.moveToFirst();
-        while (c.moveToNext()) {
+                // 1. string sql de consulta
+                String sql = "SELECT * FROM " + TABLE_NAME + ";";
 
-            Deck deck = new Deck();
+                // 2. Cursor para acesso aos dados
+                Cursor c = read.rawQuery(sql, null);
 
-            int id = c.getInt(c.getColumnIndexOrThrow("id"));
-            String description = c.getString(c.getColumnIndexOrThrow("description"));
-            String name = c.getString(c.getColumnIndexOrThrow("name"));
+                // 3. percorrer o cursor
+                boolean result = c.moveToFirst();
 
-            deck.setId(id);
-            deck.setDescription(description);
-            deck.setName(name);
+                while (c.moveToNext()) {
 
-            decks.add(deck);
-        }
-        c.close();
+                    Deck deck = new Deck();
 
-        return decks;
+                    int id = c.getInt(c.getColumnIndexOrThrow("id"));
+                    String description = c.getString(c.getColumnIndexOrThrow("description"));
+                    String name = c.getString(c.getColumnIndexOrThrow("name"));
+
+                    deck.setId(id);
+                    deck.setDescription(description);
+                    deck.setName(name);
+
+                    decks.add(deck);
+                }
+                c.close();
+
+                read.close();
+
+                return decks;
+            }
+        }, callback).execute();
     }
 
     public boolean atualizar(Deck deck) {
 
+        SQLiteDatabase write = dbHelper.getWritableDatabase();
 
         // 1. definir conteudo a ser salvo
         ContentValues cv = new ContentValues();
@@ -97,8 +131,9 @@ public class DeckDAO {
             // (where)
             // o argumento da condição --> ?)
 
-            escreve.update(dbHelper.tabelName, cv, "id=?", args);
+            write.update(TABLE_NAME, cv, "id=?", args);
 
+            write.close();
             Log.i("INFO", "Registro atualizado com sucesso!");
         } catch (Exception e) {
             Log.i("INFO", "Erro ao atualizar registro!" + e.getMessage());
@@ -112,9 +147,13 @@ public class DeckDAO {
         // 1. deletar um registro de nota na tabela notas
 
         try {
+            SQLiteDatabase write = dbHelper.getWritableDatabase();
+
             // id do registro que será deletado
             String[] args = { deck.getId().toString() };
-            escreve.delete(dbHelper.tabelName, "id=?", args);
+            write.delete(TABLE_NAME, "id=?", args);
+
+            write.close();
             Log.i("INFO", "Registro apagado com sucesso!");
         } catch (Exception e) {
             Log.i("INFO", "Erro apagar registro!" + e.getMessage());

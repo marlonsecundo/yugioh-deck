@@ -12,6 +12,11 @@ public class DeckCard implements Serializable {
 
     }
 
+    public DeckCard(Integer deckId, Integer cardId) {
+        this.deckId = deckId;
+        this.cardId = cardId;
+    }
+
     public Integer getId() {
         return id;
     }

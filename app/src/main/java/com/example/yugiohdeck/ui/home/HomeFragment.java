@@ -16,6 +16,7 @@ import com.android.volley.Response;
 import com.example.yugiohdeck.CardListFragment;
 import com.example.yugiohdeck.R;
 import com.example.yugiohdeck.databinding.FragmentHomeBinding;
+import com.example.yugiohdeck.dialogs.AddCardsDialogFragment;
 import com.example.yugiohdeck.models.Card;
 import com.example.yugiohdeck.OpenCamera;
 import com.example.yugiohdeck.services.CardService;
@@ -44,49 +45,46 @@ public class HomeFragment extends Fragment {
     CardService cardService;
     List<Card> selectedCards = new ArrayList<>();
 
-
     public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        homeViewModel =
-                new ViewModelProvider(this).get(HomeViewModel.class);
+            ViewGroup container, Bundle savedInstanceState) {
+        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-
 
         searchEditText = binding.searchEditText;
         searchButton = binding.searchButton;
         searchButton.setOnClickListener(onSearchButtonClick);
 
         addToDeckButton = binding.addToDeckButton;
+        addToDeckButton.setOnClickListener(onAddButtonClick);
 
-
-        cardListFragment = (CardListFragment) this.getChildFragmentManager().findFragmentById(R.id.cardListFragment);
-
+        cardListFragment = (CardListFragment) this.getChildFragmentManager().findFragmentById(R.id.deckListFragment);
 
         cardService = new CardService(root.getContext());
-         Map<String, String> params =  new HashMap<String, String>() {{
-             put("fname", "Dark Magician");
-         }};
+        Map<String, String> params = new HashMap<String, String>() {
+            {
+                put("fname", "Dark Magician");
+            }
+        };
         cardService.fetchCards(params, onFetchCardsResponse, onFetchCardsError);
 
         return root;
     }
-
 
     Response.Listener<String> onFetchCardsResponse = response -> {
 
         try {
             JSONObject jsonData = new JSONObject(response);
             List<Card> cards = Card.fromJSONList(jsonData.getJSONArray("data"));
-           cardListFragment.setContent(cards, this.onCardSelect);
+            cardListFragment.setContent(cards, this.onCardSelect);
         } catch (JSONException e) {
             e.printStackTrace();
         }
     };
 
-    Response.ErrorListener onFetchCardsError = error -> { };
-
+    Response.ErrorListener onFetchCardsError = error -> {
+    };
 
     View.OnClickListener onSearchButtonClick = new View.OnClickListener() {
         @Override
@@ -97,38 +95,42 @@ public class HomeFragment extends Fragment {
 
             selectedCards = new ArrayList<>();
 
-            Map<String, String> params =  new HashMap<String, String>() {{
-                put("fname", searchEditText.getText().toString());
-            }};
+            Map<String, String> params = new HashMap<String, String>() {
+                {
+                    put("fname", searchEditText.getText().toString());
+                }
+            };
 
             cardService.fetchCards(params, onFetchCardsResponse, onFetchCardsError);
 
-
         }
     };
-
 
     CardSelectCallback onCardSelect = new CardSelectCallback() {
         @Override
         public void onCardSelect(Card card, boolean selected) {
 
-            if (selected)
-            {
+            if (selected) {
                 selectedCards.add(card);
-            }
-            else {
+            } else {
                 selectedCards.remove(card);
             }
 
-            if (selectedCards.size() > 0)
-            {
+            if (selectedCards.size() > 0) {
                 addToDeckButton.setVisibility(View.VISIBLE);
-            }
-            else{
+            } else {
                 addToDeckButton.setVisibility(View.GONE);
             }
 
         }
+    };
+
+    View.OnClickListener onAddButtonClick = view -> {
+
+        AddCardsDialogFragment dialog = new AddCardsDialogFragment(this.getContext(), selectedCards);
+
+        dialog.show();
+
     };
 
     @Override

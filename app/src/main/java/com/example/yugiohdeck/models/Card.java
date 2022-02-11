@@ -14,6 +14,7 @@ import java.util.List;
 public class Card implements Serializable {
 
     Integer id;
+    Integer number;
     String name;
     String type;
     String desc;
@@ -28,8 +29,8 @@ public class Card implements Serializable {
 
     String smallImgUrl;
 
-    public Card(Integer id, String name, String type, String desc, int atk, int def, int level, String race, String attribute, String imgUrl) {
-        this.id = id;
+    public Card(Integer number, String name, String type, String desc, int atk, int def, int level, String race, String attribute, String imgUrl, String smallImgUrl) {
+        this.number = number;
         this.name = name;
         this.type = type;
         this.desc = desc;
@@ -39,6 +40,7 @@ public class Card implements Serializable {
         this.race = race;
         this.attribute = attribute;
         this.imgUrl = imgUrl;
+        this.smallImgUrl = smallImgUrl;
     }
 
     public Card() {
@@ -52,6 +54,14 @@ public class Card implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public Integer getNumber() {
+        return number;
+    }
+
+    public void setNumber(Integer number) {
+        this.number = number;
     }
 
     public String getName() {
@@ -156,7 +166,7 @@ public class Card implements Serializable {
         try{
             Card card = new Card();
 
-            card.setId(data.getInt("id"));
+            card.setNumber(data.getInt("id"));
             card.setName(data.getString("name"));
             card.setRace(data.getString("race"));
             card.setType(data.getString("type"));

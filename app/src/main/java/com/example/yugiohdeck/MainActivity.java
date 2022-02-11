@@ -6,6 +6,13 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.yugiohdeck.dao.CardDAO;
+import com.example.yugiohdeck.dao.DeckCardDAO;
+import com.example.yugiohdeck.dao.DeckDAO;
+import com.example.yugiohdeck.models.Card;
+import com.example.yugiohdeck.models.Deck;
+import com.example.yugiohdeck.models.DeckCard;
+import com.example.yugiohdeck.utils.DAOCallback;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,9 +23,17 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.example.yugiohdeck.databinding.ActivityMainBinding;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
+
+    DeckDAO deckDAO;
+    CardDAO cardDAO;
+    DeckCardDAO deckCardDAO;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +52,56 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
+        deckDAO = new DeckDAO(getApplicationContext());
+        cardDAO = new CardDAO(getApplicationContext());
+        deckCardDAO = new DeckCardDAO(getApplicationContext());
+
+        cardDAO.salvar(new Card(-1, "", "", "", -1, -1,-1, "", "", "", ""), result -> {
+
+        });
+
+        deckCardDAO.salvar(new DeckCard(-1, -1), result -> {
+
+        });
+
+
+
+         deckDAO.listar(result -> {
+             List<Deck> decks = (List<Deck>) result;
+
+             if (decks.size() < 1)
+             {
+                 Deck firstDeck = new Deck();
+
+                 firstDeck.setName("Deck Padrão");
+                 firstDeck.setDescription("Deck Predefinido");
+                 firstDeck.setId(0);
+
+
+                 deckDAO.salvar(firstDeck, r1 -> {});
+
+
+                 Deck defaultDeck = new Deck();
+
+                 defaultDeck.setName("Deck Padrão");
+                 defaultDeck.setDescription("Deck Predefinido");
+                 defaultDeck.setId(1);
+
+
+                 deckDAO.salvar(defaultDeck, r2 -> {});
+             }
+
+         });
+
+
+
+
+
+
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
 }

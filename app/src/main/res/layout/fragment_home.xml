@@ -47,7 +47,7 @@
         </LinearLayout>
 
         <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/cardListFragment"
+            android:id="@+id/deckListFragment"
             android:name="com.example.yugiohdeck.CardListFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

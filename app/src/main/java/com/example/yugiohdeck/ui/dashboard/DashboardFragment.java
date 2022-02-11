@@ -6,14 +6,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.yugiohdeck.DeckListFragment;
 import com.example.yugiohdeck.R;
 import com.example.yugiohdeck.dao.CardDAO;
 import com.example.yugiohdeck.dao.DeckCardDAO;
@@ -22,6 +21,8 @@ import com.example.yugiohdeck.databinding.FragmentDashboardBinding;
 import com.example.yugiohdeck.models.Card;
 import com.example.yugiohdeck.models.Deck;
 import com.example.yugiohdeck.models.DeckCard;
+import com.example.yugiohdeck.utils.DAOCallback;
+import com.example.yugiohdeck.utils.DeckArrayAdapterHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +41,7 @@ public class DashboardFragment extends Fragment {
     DeckCardDAO deckCardDAO;
 
     Deck currentDeck;
+    DeckListFragment deckListFragment;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -50,6 +52,7 @@ public class DashboardFragment extends Fragment {
         View root = binding.getRoot();
 
         deckDropDownList = binding.deckDropDownList;
+        deckListFragment = (DeckListFragment) this.getChildFragmentManager().findFragmentById(R.id.deckListFragment);
 
         deckDAO = new DeckDAO(root.getContext());
         cardDAO = new CardDAO(root.getContext());
@@ -65,64 +68,74 @@ public class DashboardFragment extends Fragment {
 
     public void loadDecks()
     {
-        decks = deckDAO.listar();
+        deckDAO.listar(result -> {
+            decks = (List<Deck>) result;
 
-        if (decks.size() > 0)
-        {
-            Deck firstDeck = decks.get(0);
+            if (decks.size() > 0)
+            {
+                Deck firstDeck = decks.get(0);
 
-            List<DeckCard> deckCards = deckCardDAO.listar(firstDeck.getId());
+                 deckCardDAO.listar(firstDeck.getId(), deckCardResult -> {
 
-            List<Integer> cardIds = new ArrayList<>();
+                     List<DeckCard> deckCards = (List<DeckCard>) deckCardResult;
 
-            for (int i = 0; i < deckCards.size(); i++) {
-                cardIds.add(deckCards.get(i).getCardId());
+                     List<Integer> cardIds = new ArrayList<>();
+
+                     for (int i = 0; i < deckCards.size(); i++) {
+                         cardIds.add(deckCards.get(i).getCardId());
+                     }
+
+                     cardDAO.listar(cardIds, result1 -> {
+
+                         List<Card> cards = (List<Card>) result1;
+
+                         firstDeck.setCards(cards);
+
+                         currentDeck = firstDeck;
+                     });
+
+                 });
+
+
+
             }
+        });
 
-            List<Card> cards = cardDAO.listar(cardIds);
 
-            firstDeck.setCards(cards);
-
-            currentDeck = firstDeck;
-        }
-        else {
-            decks = new ArrayList<>();
-
-            Deck mockDeck = new Deck(1, "deck mockado", "deck1");
-            List<Card> cards = new ArrayList<>();
-            cards.add(new Card(34541863, "\\\"A\\\" Cell Breeding Device", "Spell Card", "During each of your Standby Phases, put 1 A-Counter on 1 face-up monster your opponent controls", 0, 0, 0, "Continuous", "", ""));
-
-            mockDeck.setCards(cards);
-            decks.add(mockDeck);
-
-            currentDeck = mockDeck;
-        }
     }
 
     public void setLayoutContent()
     {
         setSpinnerContent();
+        setCards();
     }
 
     public void setSpinnerContent() {
 
-        String[] decksNames = new String[decks.size()];
+        ArrayAdapter<String> adapter = DeckArrayAdapterHelper.getArrayAdapterByDeckList(decks, getContext());
 
-
-        for (int i = 0; i < decks.size(); i++) {
-            decksNames[i] = decks.get(i).getName();
-        }
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(),
-                android.R.layout.simple_spinner_item, decksNames);
-
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         deckDropDownList.setAdapter(adapter);
+    }
+
+    public void setCards() {
+
+        if (currentDeck != null)
+        {
+            deckListFragment.setContent(currentDeck.getCards());
+        }
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        loadDecks();
+        setLayoutContent();
+
     }
 }
