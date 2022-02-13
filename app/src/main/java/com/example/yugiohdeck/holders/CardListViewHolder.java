@@ -62,8 +62,8 @@ public class CardListViewHolder extends RecyclerView.ViewHolder  {
         nameTextView.setText(card.getName());
         typeTextView.setText(card.getType());
         raceTextView.setText(card.getRace());
-        atkTextView.setText(String.valueOf(card.getAtk()));
-        defTextView.setText(String.valueOf(card.getDef()));
+        atkTextView.setText("ATK: " + card.getAtk());
+        defTextView.setText("DEF: " + card.getDef());
 
         new DownloadImageTask(cardImageView).execute(card.getSmallImgUrl());
     }
@@ -72,6 +72,12 @@ public class CardListViewHolder extends RecyclerView.ViewHolder  {
 
         @Override
         public void onClick(View view) {
+
+            if (selected)
+            {
+                return;
+            }
+
             Intent it = new Intent(view.getContext(), DescCard.class);
             it.putExtra("card", card);
             view.getContext().startActivity(it);

@@ -85,25 +85,6 @@ public class CardListFragment extends Fragment {
 
             ArrayList<Card> cards = new ArrayList<>();
             recyclerView.setAdapter(new MyCardListRecyclerViewAdapter(cards));
-
-            List<Integer> cardIds = new ArrayList<>();
-            /*List<Card> mCards = cardDAO.listar(cardIds, );*/
-
-            /* cardListViewHolder.implementaAoClicarNoItem(new CardListViewHolder.AoClicarNoItem() {
-                @Override
-                public void clicouNaTarefa(int pos) {
-
-                    Card newCard = new Card();
-                    newCard = mCards.get(pos);
-
-                    Intent it = new Intent(getActivity().getApplicationContext(), OpenCamera.class);
-                    startActivity(it);
-                }
-            });*/
-
-
-
-
         }
         return view;
     }

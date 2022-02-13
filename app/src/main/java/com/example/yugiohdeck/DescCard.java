@@ -19,22 +19,22 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.yugiohdeck.dao.DeckCardDAO;
 import com.example.yugiohdeck.dao.DeckDAO;
+import com.example.yugiohdeck.dialogs.AddCardsDialogFragment;
 import com.example.yugiohdeck.models.Card;
 import com.example.yugiohdeck.models.Deck;
 import com.example.yugiohdeck.models.DeckCard;
 import com.example.yugiohdeck.tasks.DownloadImageTask;
 import com.example.yugiohdeck.utils.DeckArrayAdapterHelper;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class DescCard extends AppCompatActivity {
+public class DescCard extends Activity {
 
     private static final int CAMERA_REQUEST = 1888;
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
 
-    DeckCardDAO deckCard;
-    DeckDAO deckDAO;
-    List<Deck> decks;
+    List<Card> selectedCards = new ArrayList<>();
 
     private Button btnAddToDeck;
     private ImageView imageCard;
@@ -49,23 +49,18 @@ public class DescCard extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_desc_card);
 
-        deckDAO = new DeckDAO(getApplicationContext());
-
         btnAddToDeck = findViewById(R.id.btnAddToDeck);
         imageCard = findViewById(R.id.imageCard);
         nameCard = findViewById(R.id.nameCard);
         typeCard = findViewById(R.id.typeCard);
         descCard = findViewById(R.id.descCard);
 
-        deckDAO.listar(result -> {
-            decks = (List<Deck>) result;
-        });
 
-        Log.e("deck", "DECK:" + decks);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             Card valueCard = (Card) extras.get("card");
+            selectedCards.add(valueCard);
 
             DownloadImageTask task = new DownloadImageTask(imageCard);
             task.execute(valueCard.getSmallImgUrl());
@@ -75,6 +70,7 @@ public class DescCard extends AppCompatActivity {
             descCard.setText(valueCard.getDesc());
 
             idCard = valueCard.getId();
+
         }
 
         imageCard.setOnClickListener(new View.OnClickListener() {
@@ -87,7 +83,9 @@ public class DescCard extends AppCompatActivity {
         btnAddToDeck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // deckCard.salvar(new DeckCard(idCard, idDeck), result1 -> {});
+                AddCardsDialogFragment dialog = new AddCardsDialogFragment(getApplicationContext(), selectedCards);
+                Toast.makeText(view.getContext(), "Carta Adicionada ao Deck", Toast.LENGTH_LONG).show();
+                dialog.show();
             }
         });
     }
