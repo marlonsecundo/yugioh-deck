@@ -14,6 +14,7 @@ import com.example.yugiohdeck.dao.DeckDAO;
 import com.example.yugiohdeck.databinding.ActivityNewDeckBinding;
 import com.example.yugiohdeck.models.Deck;
 import com.example.yugiohdeck.utils.DAOCallback;
+import com.google.android.material.snackbar.Snackbar;
 
 public class NewDeckActivity extends AppCompatActivity {
 
@@ -36,6 +37,7 @@ public class NewDeckActivity extends AppCompatActivity {
 
         binding = ActivityNewDeckBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
 
         newDeckTextView = binding.txtAddNewDeck;
 
@@ -74,6 +76,8 @@ public class NewDeckActivity extends AppCompatActivity {
 
             if (title.length() < 1 || desc.length() < 1)
             {
+
+
                 Toast.makeText(getApplicationContext(), "Preencha todos os campos!!!", Toast.LENGTH_LONG).show();
 
                 return;
@@ -82,6 +86,8 @@ public class NewDeckActivity extends AppCompatActivity {
             if (deck == null)
             {
                 deckDAO.salvar(new Deck(desc, title), result -> {
+
+
                     finish();
                 });
             }
@@ -90,7 +96,17 @@ public class NewDeckActivity extends AppCompatActivity {
                 deck.setName(title);
                 deck.setDescription(desc);
 
-                deckDAO.atualizar(deck, result -> finish());
+                deckDAO.atualizar(deck, result -> {
+
+                    Snackbar snackbar = Snackbar
+                            .make(binding.getRoot(), "Deck atualizado!", Snackbar.LENGTH_LONG)
+                            .setAction("Voltar", view1 -> {
+                                finish();
+                            });
+
+                    snackbar.show();
+
+                });
             }
 
 
