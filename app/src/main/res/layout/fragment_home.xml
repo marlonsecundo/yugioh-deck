@@ -19,20 +19,30 @@
         android:orientation="vertical"
         android:visibility="visible">
 
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="15dp"
+            android:text="Pesquisar" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
             android:orientation="horizontal">
 
             <EditText
                 android:id="@+id/searchEditText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
                 android:layout_weight="1"
                 android:ems="10"
+                android:hint="Digite o nome"
                 android:inputType="textPersonName"
-                android:minHeight="60dp"
-                android:text="Name" />
+                android:minHeight="60dp" />
 
             <Button
                 android:id="@+id/searchButton"
