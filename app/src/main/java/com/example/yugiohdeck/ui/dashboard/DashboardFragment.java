@@ -1,5 +1,7 @@
 package com.example.yugiohdeck.ui.dashboard;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
@@ -39,6 +42,8 @@ public class DashboardFragment extends Fragment {
 
     Spinner deckDropDownList;
     FloatingActionButton newDeckButton;
+    Button deleteButton;
+    Button updateButton;
 
     List<Deck> decks = new ArrayList<>();
 
@@ -57,6 +62,12 @@ public class DashboardFragment extends Fragment {
 
         binding = FragmentDashboardBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+        deleteButton = binding.deleteButton;
+        deleteButton.setOnClickListener(onDeleteClick);
+
+        updateButton = binding.updateButton;
+        updateButton.setOnClickListener(onUpdateClick);
 
         deckDropDownList = binding.deckDropDownList;
         deckDropDownList.setOnItemSelectedListener(onDeckItemChange);
@@ -84,9 +95,7 @@ public class DashboardFragment extends Fragment {
 
             if (decks.size() > 0)
             {
-                Deck firstDeck = decks.get(0);
                 setSpinnerContent();
-
             }
         });
 
@@ -159,6 +168,41 @@ public class DashboardFragment extends Fragment {
         }
     };
 
+    View.OnClickListener onDeleteClick = view -> {
+
+        if (currentDeck != null)
+        {
+
+            AlertDialog.Builder builder1 = new AlertDialog.Builder(getContext());
+            builder1.setMessage("Deseja apagar o Deck: " + currentDeck.getName() + "?");
+            builder1.setCancelable(true);
+
+            builder1.setPositiveButton(
+                    "SIM",
+                    (dialog, id) -> {
+                        deckDAO.deletar(currentDeck, result -> {
+                            loadDecks();
+                        });
+
+                        dialog.cancel();
+                    });
+
+            builder1.setNegativeButton(
+                    "NÃO",
+                    (dialog, id) -> dialog.cancel());
+
+
+            AlertDialog alert11 = builder1.create();
+            alert11.show();
+
+
+        }
+    };
+
+    View.OnClickListener onUpdateClick = view -> {
+
+    };
+
 
     @Override
     public void onDestroyView() {
@@ -169,5 +213,7 @@ public class DashboardFragment extends Fragment {
     @Override
     public void onResume(){
         super.onResume();
+
+        loadDecks();
     }
 }

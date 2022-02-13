@@ -142,24 +142,27 @@ public class DeckDAO {
         return true;
     }
 
-    public boolean deletar(Deck deck) {
+    public void deletar(Deck deck, DAOCallback callback) {
 
-        // 1. deletar um registro de nota na tabela notas
+        new DBTask(new DAOCallable() {
+            @Override
+            public Object run() {
+                try {
+                    SQLiteDatabase write = dbHelper.getWritableDatabase();
 
-        try {
-            SQLiteDatabase write = dbHelper.getWritableDatabase();
+                    // id do registro que será deletado
+                    String[] args = { deck.getId().toString() };
+                    write.delete(TABLE_NAME, "id=?", args);
 
-            // id do registro que será deletado
-            String[] args = { deck.getId().toString() };
-            write.delete(TABLE_NAME, "id=?", args);
-
-            write.close();
-            Log.i("INFO", "Registro apagado com sucesso!");
-        } catch (Exception e) {
-            Log.i("INFO", "Erro apagar registro!" + e.getMessage());
-            return false;
-        }
-        return true;
+                    write.close();
+                    Log.i("INFO", "Registro apagado com sucesso!");
+                } catch (Exception e) {
+                    Log.i("INFO", "Erro apagar registro!" + e.getMessage());
+                    return false;
+                }
+                return true;
+            }
+        }, callback).execute();
 
     }
 }
