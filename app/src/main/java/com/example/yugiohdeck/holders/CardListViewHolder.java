@@ -76,6 +76,12 @@ public class CardListViewHolder extends RecyclerView.ViewHolder  {
 
         @Override
         public void onClick(View view) {
+
+            if (selected)
+            {
+                return;
+            }
+
             Intent it = new Intent(view.getContext(), DescCard.class);
             it.putExtra("card", card);
             view.getContext().startActivity(it);
