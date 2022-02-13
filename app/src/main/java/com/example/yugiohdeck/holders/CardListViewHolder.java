@@ -52,10 +52,6 @@ public class CardListViewHolder extends RecyclerView.ViewHolder  {
 
     }
 
-    public void onClick(View v) {
-        listener.clicouNaTarefa(getLayoutPosition());
-    }
-
     public void setContent(Card card, CardSelectCallback cardSelectCallback)
     {
         this.card = card;
@@ -98,15 +94,5 @@ public class CardListViewHolder extends RecyclerView.ViewHolder  {
 
         return false;
     };
-
-    public interface AoClicarNoItem{
-        public void clicouNaTarefa(int pos);
-    }
-
-    public AoClicarNoItem listener;
-
-    public void implementaAoClicarNoItem(AoClicarNoItem listener){
-        this.listener = listener;
-    }
 
 }

@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.YugiohDeck">
         <activity
+            android:name=".DescCard"
+            android:exported="true" />
+        <activity
             android:name=".NewDeckActivity"
             android:exported="true"
             android:label="@string/title_activity_new_decka"

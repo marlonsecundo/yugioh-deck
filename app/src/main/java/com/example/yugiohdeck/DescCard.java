@@ -5,22 +5,36 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.yugiohdeck.dao.DeckCardDAO;
+import com.example.yugiohdeck.dao.DeckDAO;
 import com.example.yugiohdeck.models.Card;
+import com.example.yugiohdeck.models.Deck;
+import com.example.yugiohdeck.models.DeckCard;
 import com.example.yugiohdeck.tasks.DownloadImageTask;
+import com.example.yugiohdeck.utils.DeckArrayAdapterHelper;
 
-public class DescCard extends Activity {
+import java.util.List;
+
+public class DescCard extends AppCompatActivity {
 
     private static final int CAMERA_REQUEST = 1888;
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
+
+    DeckCardDAO deckCard;
+    DeckDAO deckDAO;
+    List<Deck> decks;
 
     private Button btnAddToDeck;
     private ImageView imageCard;
@@ -28,9 +42,14 @@ public class DescCard extends Activity {
     private TextView typeCard;
     private TextView descCard;
 
+    private Integer idCard;
+    private Integer idDeck;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_desc_card);
+
+        deckDAO = new DeckDAO(getApplicationContext());
 
         btnAddToDeck = findViewById(R.id.btnAddToDeck);
         imageCard = findViewById(R.id.imageCard);
@@ -38,6 +57,11 @@ public class DescCard extends Activity {
         typeCard = findViewById(R.id.typeCard);
         descCard = findViewById(R.id.descCard);
 
+        deckDAO.listar(result -> {
+            decks = (List<Deck>) result;
+        });
+
+        Log.e("deck", "DECK:" + decks);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -49,6 +73,8 @@ public class DescCard extends Activity {
             nameCard.setText(valueCard.getName());
             typeCard.setText(valueCard.getType());
             descCard.setText(valueCard.getDesc());
+
+            idCard = valueCard.getId();
         }
 
         imageCard.setOnClickListener(new View.OnClickListener() {
@@ -59,8 +85,9 @@ public class DescCard extends Activity {
         });
 
         btnAddToDeck.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-
+            @Override
+            public void onClick(View view) {
+                // deckCard.salvar(new DeckCard(idCard, idDeck), result1 -> {});
             }
         });
     }
