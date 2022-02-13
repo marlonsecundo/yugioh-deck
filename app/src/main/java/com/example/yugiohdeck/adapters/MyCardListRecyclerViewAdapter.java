@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.yugiohdeck.holders.CardListViewHolder;
 import com.example.yugiohdeck.databinding.CardItemBinding;
@@ -41,17 +42,21 @@ public class MyCardListRecyclerViewAdapter extends RecyclerView.Adapter<CardList
 
     @Override
     public void onBindViewHolder(final CardListViewHolder holder, int position) {
-
         holder.setContent(cards.get(position), cardSelectCallback);
     }
 
+    /* public View.OnClickListener onClickShow = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Toast.makeText(view.getContext(), "clicked card", Toast.LENGTH_SHORT).show();
+        }
+    };*/
 
 
     @Override
     public int getItemCount() {
         return cards.size();
     }
-
 
 
 }

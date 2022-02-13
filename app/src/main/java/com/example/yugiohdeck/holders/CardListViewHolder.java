@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.yugiohdeck.DescCard;
 import com.example.yugiohdeck.OpenCamera;
 import com.example.yugiohdeck.databinding.CardItemBinding;
 import com.example.yugiohdeck.models.Card;
@@ -35,7 +36,6 @@ public class CardListViewHolder extends RecyclerView.ViewHolder  {
 
     CardSelectCallback cardSelectCallback;
 
-
     public CardListViewHolder(CardItemBinding binding) {
         super(binding.getRoot());
 
@@ -48,16 +48,13 @@ public class CardListViewHolder extends RecyclerView.ViewHolder  {
         cardView = binding.cardView;
 
         cardView.setOnLongClickListener(onCardLongPress);
+        cardView.setOnClickListener(onShowClick);
 
     }
 
-    public OnClickListener onShowClick = new OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            Toast.makeText(view.getContext(), "Tarefa foi removida", Toast.LENGTH_SHORT).show();
-        }
-    };
-
+    public void onClick(View v) {
+        listener.clicouNaTarefa(getLayoutPosition());
+    }
 
     public void setContent(Card card, CardSelectCallback cardSelectCallback)
     {
@@ -75,6 +72,16 @@ public class CardListViewHolder extends RecyclerView.ViewHolder  {
         new DownloadImageTask(cardImageView).execute(card.getSmallImgUrl());
     }
 
+    public OnClickListener onShowClick = new OnClickListener() {
+
+        @Override
+        public void onClick(View view) {
+            Intent it = new Intent(view.getContext(), DescCard.class);
+            it.putExtra("card", card);
+            view.getContext().startActivity(it);
+        }
+    };
+
     View.OnLongClickListener onCardLongPress = view -> {
 
         selected = !selected;
@@ -91,5 +98,15 @@ public class CardListViewHolder extends RecyclerView.ViewHolder  {
 
         return false;
     };
+
+    public interface AoClicarNoItem{
+        public void clicouNaTarefa(int pos);
+    }
+
+    public AoClicarNoItem listener;
+
+    public void implementaAoClicarNoItem(AoClicarNoItem listener){
+        this.listener = listener;
+    }
 
 }

@@ -10,14 +10,14 @@
     android:textAlignment="center">
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/imageCard"
         android:layout_width="239dp"
         android:layout_height="386dp"
 
         android:layout_gravity="center" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/nameCard"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -41,7 +41,7 @@
             android:text="TextView" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/typeCard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="XYZ Monster"
@@ -50,7 +50,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/descCard"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_marginTop="9dp"
