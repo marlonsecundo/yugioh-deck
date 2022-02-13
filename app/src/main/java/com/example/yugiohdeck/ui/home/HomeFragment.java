@@ -1,8 +1,10 @@
 package com.example.yugiohdeck.ui.home;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -88,6 +90,14 @@ public class HomeFragment extends Fragment {
     };
 
     Response.ErrorListener onFetchCardsError = error -> {
+
+        Context context = getActivity().getApplicationContext();
+        CharSequence text = "Carta não encontrada!";
+        int duration = Toast.LENGTH_LONG;
+
+        Toast toast = Toast.makeText(this.getContext(), text, duration);
+        toast.show();
+
         Log.e("error", "Carta nao encontrada");
     };
 
