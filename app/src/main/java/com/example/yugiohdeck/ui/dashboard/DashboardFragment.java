@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -44,6 +45,7 @@ public class DashboardFragment extends Fragment {
     FloatingActionButton newDeckButton;
     Button deleteButton;
     Button updateButton;
+    TextView descTextView;
 
     List<Deck> decks = new ArrayList<>();
 
@@ -62,6 +64,8 @@ public class DashboardFragment extends Fragment {
 
         binding = FragmentDashboardBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+        descTextView = binding.descTextView;
 
         deleteButton = binding.deleteButton;
         deleteButton.setOnClickListener(onDeleteClick);
@@ -140,6 +144,7 @@ public class DashboardFragment extends Fragment {
         if (currentDeck != null)
         {
             deckListFragment.setContent(currentDeck.getCards());
+            descTextView.setText(currentDeck.getDescription());
         }
     }
 
@@ -200,7 +205,12 @@ public class DashboardFragment extends Fragment {
     };
 
     View.OnClickListener onUpdateClick = view -> {
-
+        if (currentDeck != null)
+        {
+            Intent i = new Intent(getContext(), NewDeckActivity.class);
+            i.putExtra("deck", currentDeck);
+            startActivity(i);
+        }
     };
 
 

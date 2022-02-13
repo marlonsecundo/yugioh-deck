@@ -114,32 +114,32 @@ public class DeckDAO {
         }, callback).execute();
     }
 
-    public boolean atualizar(Deck deck) {
+    public void atualizar(Deck deck, DAOCallback callback) {
 
-        SQLiteDatabase write = dbHelper.getWritableDatabase();
+        new DBTask(new DAOCallable() {
+            @Override
+            public Object run() {
+                SQLiteDatabase write = dbHelper.getWritableDatabase();
 
-        // 1. definir conteudo a ser salvo
-        ContentValues cv = new ContentValues();
-        cv.put("description", deck.getDescription());
-        cv.put("name", deck.getName());
+                ContentValues cv = new ContentValues();
+                cv.put("description", deck.getDescription());
+                cv.put("name", deck.getName());
 
-        // 2. atualizar valor no banco
-        try {
-            String[] args = { deck.getId().toString() };
+                try {
+                    String[] args = { deck.getId().toString() };
 
-            // 2.1 update(nome da tabela, conteudo para atualizar, clausula de atualização
-            // (where)
-            // o argumento da condição --> ?)
+                    write.update(TABLE_NAME, cv, "id=?", args);
 
-            write.update(TABLE_NAME, cv, "id=?", args);
+                    write.close();
+                    Log.i("INFO", "Registro atualizado com sucesso!");
+                } catch (Exception e) {
+                    Log.i("INFO", "Erro ao atualizar registro!" + e.getMessage());
+                    return false;
+                }
+                return true;
+            }
+        }, callback).execute();
 
-            write.close();
-            Log.i("INFO", "Registro atualizado com sucesso!");
-        } catch (Exception e) {
-            Log.i("INFO", "Erro ao atualizar registro!" + e.getMessage());
-            return false;
-        }
-        return true;
     }
 
     public void deletar(Deck deck, DAOCallback callback) {
