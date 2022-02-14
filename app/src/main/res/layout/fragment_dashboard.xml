@@ -33,7 +33,7 @@
             android:text="TextView" />
 
         <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/deckListFragment"
+            android:id="@+id/cardListFragment"
             android:name="com.example.yugiohdeck.DeckListFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

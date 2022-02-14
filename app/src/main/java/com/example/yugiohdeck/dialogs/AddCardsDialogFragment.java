@@ -14,6 +14,7 @@ import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.yugiohdeck.R;
 import com.example.yugiohdeck.dao.CardDAO;
@@ -85,6 +86,7 @@ public class AddCardsDialogFragment extends Dialog {
 
             int finalI = i;
 
+
             cardDAO.salvar(cards.get(i), new DAOCallback() {
                 @Override
                 public void onJobFinish(Object result) {
@@ -92,21 +94,26 @@ public class AddCardsDialogFragment extends Dialog {
 
                     cards.get(finalI).setId(id);
 
-                    deckCardDAO.salvar(new DeckCard(selectedDeck.getId(), cards.get(finalI).getId()), result1 -> {});
+                    deckCardDAO.salvar(new DeckCard(selectedDeck.getId(), cards.get(finalI).getId()), result1 -> {
+
+                        Toast.makeText(getContext(), "Carta adicionada!!!", Toast.LENGTH_LONG).show();
+                        closeDialog();
+
+                    });
                 }
             });
 
         }
 
-        this.dismiss();
 
 
     };
-
+    public void closeDialog (){
+        this.dismiss();
+    }
 
     View.OnClickListener onCancelClick = view -> {
-
-        this.dismiss();
+        closeDialog();
     };
 
 

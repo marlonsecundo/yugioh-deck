@@ -44,7 +44,17 @@ public class Card implements Serializable {
     }
 
     public Card() {
-
+        number = 0;
+        name = "";
+        type = "";
+        desc = "";
+        atk = 0;
+        def = 0;
+        level = 0;
+        race = "";
+        attribute = "";
+        imgUrl = "https://cdn.shopify.com/s/files/1/1425/8892/products/KON74145--Yu-Gi-Oh-Card-Back-Sleeves-50ct_da77d52d-fbd1-472c-8d87-243660b780ff_grande.jpg";
+        smallImgUrl = "https://img-comment-fun.9cache.com/media/aEGVbRK/arQY7Q5Y_700w_0.jpg";
     }
 
 

@@ -41,9 +41,12 @@ public class DescCard extends Activity {
     private TextView nameCard;
     private TextView typeCard;
     private TextView descCard;
+    TextView cardRaceTextView;
 
     private Integer idCard;
     private Integer idDeck;
+
+    Card card;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,40 +57,38 @@ public class DescCard extends Activity {
         nameCard = findViewById(R.id.nameCard);
         typeCard = findViewById(R.id.typeCard);
         descCard = findViewById(R.id.descCard);
+        cardRaceTextView = findViewById(R.id.cardRaceTextView);
 
 
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            Card valueCard = (Card) extras.get("card");
-            selectedCards.add(valueCard);
+            card = (Card) extras.get("card");
+            selectedCards.add(card);
 
             DownloadImageTask task = new DownloadImageTask(imageCard);
-            task.execute(valueCard.getSmallImgUrl());
+            task.execute(card.getSmallImgUrl());
 
-            nameCard.setText(valueCard.getName());
-            typeCard.setText(valueCard.getType());
-            descCard.setText(valueCard.getDesc());
+            nameCard.setText(card.getName());
+            typeCard.setText(card.getType());
+            descCard.setText(card.getDesc());
+            cardRaceTextView.setText(card.getRace());
 
-            idCard = valueCard.getId();
+            idCard = card.getId();
 
         }
 
-        imageCard.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(cameraIntent, CAMERA_REQUEST);
-            }
+        imageCard.setOnClickListener(v -> {
+            Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+            startActivityForResult(cameraIntent, CAMERA_REQUEST);
         });
 
-        btnAddToDeck.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AddCardsDialogFragment dialog = new AddCardsDialogFragment(getApplicationContext(), selectedCards);
-                Toast.makeText(view.getContext(), "Carta Adicionada ao Deck", Toast.LENGTH_LONG).show();
-                dialog.show();
-            }
+        btnAddToDeck.setOnClickListener(view -> {
+            AddCardsDialogFragment dialog = new AddCardsDialogFragment(DescCard.this, selectedCards);
+            dialog.show();
         });
+
+        new DownloadImageTask(imageCard).execute(card.getImgUrl());
     }
 
     @Override

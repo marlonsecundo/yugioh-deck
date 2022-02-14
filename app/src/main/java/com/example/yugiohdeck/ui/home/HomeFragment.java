@@ -1,15 +1,14 @@
 package com.example.yugiohdeck.ui.home;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -22,7 +21,6 @@ import com.example.yugiohdeck.R;
 import com.example.yugiohdeck.databinding.FragmentHomeBinding;
 import com.example.yugiohdeck.dialogs.AddCardsDialogFragment;
 import com.example.yugiohdeck.models.Card;
-import com.example.yugiohdeck.OpenCamera;
 import com.example.yugiohdeck.services.CardService;
 import com.example.yugiohdeck.utils.CardSelectCallback;
 
@@ -34,8 +32,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import retrofit2.Retrofit;
-
 public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
@@ -44,10 +40,15 @@ public class HomeFragment extends Fragment {
     EditText searchEditText;
     Button searchButton;
     Button addToDeckButton;
+    TextView statusTextView;
 
     CardListFragment cardListFragment;
+    View cardListView;
+
     CardService cardService;
     List<Card> selectedCards = new ArrayList<>();
+
+    boolean isLoading = true;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -56,6 +57,8 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        cardListView = binding.cardListFragment;
+
         searchEditText = binding.searchEditText;
         searchButton = binding.searchButton;
         searchButton.setOnClickListener(onSearchButtonClick);
@@ -63,7 +66,9 @@ public class HomeFragment extends Fragment {
         addToDeckButton = binding.addToDeckButton;
         addToDeckButton.setOnClickListener(onAddButtonClick);
 
-        cardListFragment = (CardListFragment) this.getChildFragmentManager().findFragmentById(R.id.deckListFragment);
+        cardListFragment = (CardListFragment) this.getChildFragmentManager().findFragmentById(R.id.cardListFragment);
+
+        statusTextView = binding.statusTextView;
 
         cardService = new CardService(root.getContext());
         Map<String, String> params = new HashMap<String, String>() {
@@ -75,7 +80,22 @@ public class HomeFragment extends Fragment {
 
         cardService.fetchCards(params, onFetchCardsResponse, onFetchCardsError);
 
+        cardListView.setVisibility(View.INVISIBLE);
+
         return root;
+    }
+
+    public void setLoadingStatus ()
+    {
+        if (isLoading)
+        {
+            statusTextView.setVisibility(View.VISIBLE);
+            cardListView.setVisibility(View.INVISIBLE);
+        }
+        else {
+            statusTextView.setVisibility(View.GONE);
+            cardListView.setVisibility(View.VISIBLE);
+        }
     }
 
     Response.Listener<String> onFetchCardsResponse = response -> {
@@ -84,29 +104,34 @@ public class HomeFragment extends Fragment {
             JSONObject jsonData = new JSONObject(response);
             List<Card> cards = Card.fromJSONList(jsonData.getJSONArray("data"));
             cardListFragment.setContent(cards, this.onCardSelect);
+
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        isLoading = false;
+        setLoadingStatus();
     };
 
     Response.ErrorListener onFetchCardsError = error -> {
+        isLoading = false;
+        setLoadingStatus();
 
-        Context context = getActivity().getApplicationContext();
-        CharSequence text = "Carta não encontrada!";
         int duration = Toast.LENGTH_LONG;
 
-        Toast toast = Toast.makeText(this.getContext(), text, duration);
+        Toast toast = Toast.makeText(this.getContext(),  "Carta não encontrada!", duration);
         toast.show();
 
-        Log.e("error", "Carta nao encontrada");
     };
 
     View.OnClickListener onSearchButtonClick = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
 
-            if (searchEditText.getText().equals(""))
-                return;
+
+            isLoading = true;
+            setLoadingStatus();
 
             selectedCards = new ArrayList<>();
 

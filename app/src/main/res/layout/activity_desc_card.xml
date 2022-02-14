@@ -30,15 +30,19 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
         android:layout_marginTop="20dp"
+        android:layout_marginRight="10dp"
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/cardRaceTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="TextView" />
+            android:text="TextView"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/typeCard"
@@ -55,11 +59,12 @@
         android:layout_height="match_parent"
         android:layout_marginTop="9dp"
         android:layout_weight="1"
+        android:justificationMode="inter_word"
         android:padding="20dp"
         android:text="2 Level 4 monsters\nOnce per turn (Quick Effect): You can detach 1 material from this card, then target 1 Spell/Trap on the field; destroy it."
-        android:textAlignment="center"
+        android:textAlignment="inherit"
         android:textColor="#FFFFFF"
-        android:textSize="20sp" />
+        android:textSize="14sp" />
 
     <Button
         android:id="@+id/btnAddToDeck"

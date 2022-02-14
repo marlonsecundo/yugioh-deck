@@ -1,7 +1,6 @@
 package com.example.yugiohdeck.ui.dashboard;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,12 +9,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -79,7 +76,7 @@ public class DashboardFragment extends Fragment {
         newDeckButton = binding.newDeckButton;
         newDeckButton.setOnClickListener(onNewDeckClick);
 
-        deckListFragment = (DeckListFragment) this.getChildFragmentManager().findFragmentById(R.id.deckListFragment);
+        deckListFragment = (DeckListFragment) this.getChildFragmentManager().findFragmentById(R.id.cardListFragment);
 
         deckDAO = new DeckDAO(root.getContext());
         cardDAO = new CardDAO(root.getContext());

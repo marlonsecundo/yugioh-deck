@@ -56,15 +56,30 @@
                 app:iconPadding="0dp" />
         </LinearLayout>
 
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/deckListFragment"
-            android:name="com.example.yugiohdeck.CardListFragment"
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            tools:layout="@layout/card_item_list">
+            android:layout_weight="1">
 
-        </androidx.fragment.app.FragmentContainerView>
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/cardListFragment"
+                android:name="com.example.yugiohdeck.CardListFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                tools:layout="@layout/card_item_list">
+
+            </androidx.fragment.app.FragmentContainerView>
+
+            <TextView
+                android:id="@+id/statusTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Carregando..."
+                android:textSize="20sp"
+                android:visibility="visible" />
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     </LinearLayout>
 
